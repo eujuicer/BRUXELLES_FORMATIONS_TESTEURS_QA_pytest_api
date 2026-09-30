@@ -4,6 +4,7 @@ Il affiche des choses. Il ne dit jamais si c'est correct.
 Le J4 commence ici : on le transforme en tests.
 """
 import requests
+from rich import print
 
 BASE_URL = "http://localhost:8000"
 
@@ -17,3 +18,7 @@ for event in response.json():
 detail = requests.get(f"{BASE_URL}/api/events/{response.json()[0]['id']}", timeout=5)
 print(detail.status_code)
 print(detail.json())
+
+query_param = {
+    "city": "Gand"
+}
