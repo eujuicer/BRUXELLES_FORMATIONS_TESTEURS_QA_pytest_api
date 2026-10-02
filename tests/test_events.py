@@ -74,5 +74,22 @@ def test_recherche_vide_retourne_tout_le_catalogue():
     assert ids_obtenus == ids_catalogue
 
 
+# C5
+def test_filtre_ville_positif():
+    catalogue = requests.get(f"{BASE_URL}/api/events", timeout=TIMEOUT).json()
+    ville = catalogue[0]["city"]
+    response = requests.get(f"{BASE_URL}/api/events", timeout=TIMEOUT, params={"city": ville})
+    events = response.json()
+    assert response.status_code == 200, response.text
+    assert events , "Aucun event pour cette ville"
+    #ou assert len(events) > 0, 'Aucun event pour cette ville' meme chose que en haut 
 
+    villes = {e["city"] for e in events}
+    assert villes == {ville}
+
+def test_ville_inconnue():
+    #copier coller 
+    response = requests.get(f"{BASE_URL}/api/events", timeout=TIMEOUT, params={"q": "zzz-aucun-titre-zzz"})
+    assert response.status_code == 200, response.text
+    assert response.json() == []
 
