@@ -2,7 +2,7 @@ import pytest
 import requests
 
 BASE_URL = "http://localhost:8000"
-TIMEOUT = 5
+from helpers import TIMEOUT
 
 def test_status_is_200():
     response = requests.get(f"{BASE_URL}/api/events",timeout=TIMEOUT)

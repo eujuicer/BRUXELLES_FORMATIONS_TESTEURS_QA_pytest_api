@@ -2,7 +2,7 @@ import pytest
 import requests
 
 BASE_URL = "http://localhost:8000"
-TIMEOUT = 5
+from helpers import TIMEOUT
 
 def test_event_published_only():
     response = requests.get(f"{BASE_URL}/api/events", timeout=TIMEOUT)
@@ -106,7 +106,7 @@ def test_q_vide()  :
     events_vide = res2.json()
     assert len(events_vide) == len(events_plein) #bravo
 
-import pytest as print
+
 
 @pytest.mark.parametrize("id", [
     ("zzz"),
@@ -122,8 +122,4 @@ def test_422(id):
     assert err["detail"][0]["loc"] == ['path', 'event_id']
     assert "integer" in err["detail"][0][ "msg" ].lower()
 
-from dotenv import load_dotenv
-import os
-import pytest
 
-load_dotenv()

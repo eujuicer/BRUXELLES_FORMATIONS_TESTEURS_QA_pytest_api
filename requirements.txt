@@ -11,3 +11,4 @@ pytest-randomly>=5.0
 pytest-repeat>=0.9
 pytest-xdist>=3.8
 ruff>=0.16
+python-dotenv>=1.0

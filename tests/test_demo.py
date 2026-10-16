@@ -3,7 +3,7 @@ import requests
 import pytest
 
 BASE_URL = "http://localhost:8000"
-TIMEOUT = 5
+from helpers import TIMEOUT
 
 # result = requests.get(f"{BASE_URL}/api/events", timeout=TIMEOUT)
 # events: list[dict] = result.json()

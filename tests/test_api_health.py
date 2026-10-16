@@ -1,7 +1,7 @@
 import requests
 
 BASE_URL = "http://localhost:8000"
-TIMEOUT = 5
+from helpers import TIMEOUT
 
 def test_healh_respond_ok():
     response = requests.get(f"{BASE_URL}/api/health", timeout=TIMEOUT)
