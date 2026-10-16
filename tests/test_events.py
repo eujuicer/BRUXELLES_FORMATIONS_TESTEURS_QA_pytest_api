@@ -87,9 +87,16 @@ def test_filtre_ville_positif():
     villes = {e["city"] for e in events}
     assert villes == {ville}
 
+#C6
 def test_ville_inconnue():
     #copier coller 
     response = requests.get(f"{BASE_URL}/api/events", timeout=TIMEOUT, params={"q": "zzz-aucun-titre-zzz"})
     assert response.status_code == 200, response.text
     assert response.json() == []
 
+#C7
+def test_filtre_city_casse():
+    catalogue = requests.get(f"{BASE_URL}/api/events", timeout=TIMEOUT).json()
+    ville = catalogue[0]["city"]
+
+    
