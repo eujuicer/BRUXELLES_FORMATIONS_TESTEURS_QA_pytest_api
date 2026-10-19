@@ -1,3 +1,5 @@
+import requests
+
 TIMEOUT = 5
 
 # Contrat d'un événement du catalogue (GET /api/events), repris de la
@@ -40,3 +42,17 @@ def load_json(relative_path):
     """Charge un fichier JSON du projet (schéma, jeu de données), où que soit lancé pytest."""
     with open(PROJECT_ROOT / relative_path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def login(base_url, email, password):
+    response: requests.post(
+        f"{base_url}/api/auth/token",
+        data={"username": email, "password": password},
+        timeout=TIMEOUT,
+    )
+
+    assert response.status_code == 200, (
+        f"Login Impossible = {response.status_code} {response.text}"
+    )
+    token = response.json()["access_token"]
+    return {"Authorization": f"Bearer {token}"}
