@@ -1,9 +1,13 @@
 # Remise à niveau
+from typing import Literal
+
 import requests
 import pytest
+# from tests.helpers import TIMEOUT
+
+TIMEOUT = 5
 
 BASE_URL = "http://localhost:8000"
-from helpers import TIMEOUT
 
 # result = requests.get(f"{BASE_URL}/api/events", timeout=TIMEOUT)
 # events: list[dict] = result.json()
@@ -57,11 +61,57 @@ def test_echouaayyy():
     (-99),
     (0)
 ], ids=["CAS_999", "CAS_42", "CAS_-1", "CAS_-99", "CAS_0"])
-def test_event_404(id):
-    response = requests.get(f"{BASE_URL}/api/events/{id}", timeout=TIMEOUT)
+def test_event_404(id: Literal[999] | Literal[42] | Literal[-1] | Literal[-99] | Literal[0], base_url: str | None):
+    response = requests.get(f"{base_url}/api/events/{id}", timeout=TIMEOUT)
     assert response.status_code == 404, response.text
 
 
 
 response = requests.get(f"{BASE_URL}/api/events/1.5", timeout=TIMEOUT)
 print(response.status_code, response.json())
+
+
+
+ADRESSE_SHEMA = {
+    "type": "object",
+    "required": ["rue", "code_postal", "numero"],
+    "properties": {
+        "rue": {"type": "string"},
+        "code_postal": {"type": "string"},
+        "numero": {"type": "integer"},
+    }
+}
+
+EVENT_SHEMA = {
+    "type": "object",
+    "required": ["id", "title", "city"],
+    "properties": {
+        "id": {"type": "integer", "minimum": 0},
+        "title": {"type": "string", "minLength": 3},
+        "city": {"type": "string"},
+        "capacity": {"type": "integer"},
+        "adresse": ADRESSE_SHEMA,
+        "status": {"type": "string", "enum": ["published", "finished", "blocked"]}
+    }
+}
+
+EVENTS_SHEMA = {
+    "type": "array",
+    "items": EVENT_SHEMA,
+    "minItems": 1
+}
+
+from jsonschema import validate
+
+def test_shema_event():
+    event_shema_test = {
+        "id": 1,
+        "title": "Concert de Rock Davit Until They Fall - Djyn",
+        "city": "Braine L'Alleud",
+        "status": "aefaefaef"
+    }
+
+    validate(event_shema_test, EVENT_SHEMA)
+
+
+
