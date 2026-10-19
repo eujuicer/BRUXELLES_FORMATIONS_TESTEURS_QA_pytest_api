@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "required": ["id", "title", "description", "city", "venue", "starts_at", "capacity", "status", "cover_color"],
+  "properties": {
+    "id": {"type": "integer", "minimum": 1},
+    "title": {"type": "string", "minLength": 1},
+    "description": {"type": "string"},
+    "city": {"type": "string", "minLength": 1},
+    "venue": {"type": "string"},
+    "starts_at": {"type": "string"},
+    "capacity": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["draft", "published", "archived"]},
+    "cover_color": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"}
+  }
+}

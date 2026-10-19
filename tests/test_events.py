@@ -18,20 +18,6 @@ def test_liste_vide():
     data = response.json()
     assert len(data) > 0, "La liste d'events est vide"
 
-def test_structure():
-    response = requests.get(f"{BASE_URL}/api/events", timeout=TIMEOUT)
-    data = response.json()
-    assert data, "liste vide"
-    for e in data:
-        assert "id" in e and type(e["id"]) == int
-        assert "title" in e and type(e["title"]) == str
-        assert "description" in e and type(e["description"]) == str
-        assert "city" in e and type(e["city"]) == str
-        assert "venue" in e and type(e["venue"]) == str
-        assert "starts_at" in e and type(e["starts_at"]) == str
-        assert "capacity" in e and type(e["capacity"]) == int
-        assert "status" in e and type(e["status"]) == str
-        assert "cover_color" in e and type(e["cover_color"]) == str
 
 
 

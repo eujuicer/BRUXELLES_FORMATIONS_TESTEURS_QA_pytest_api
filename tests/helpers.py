@@ -27,11 +27,16 @@ EVENT_SCHEMA = {
         "cover_color": {"type": "string"},
     },
 }
+
+
 import json
 from pathlib import Path
 
+# tests/helpers.py -> tests/ -> racine du projet
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
+
 def load_json(relative_path):
+    """Charge un fichier JSON du projet (schéma, jeu de données), où que soit lancé pytest."""
     with open(PROJECT_ROOT / relative_path, encoding="utf-8") as f:
         return json.load(f)
