@@ -45,3 +45,10 @@ def get_bookable_event_cat(base_url, events_summary, min_available = 1):
     return None
 
         
+
+def create_order(base_url, headers, event_id, items, promo_code=None):
+    # Renvoie la réponse BRUTE : c'est au test de vérifier (y compris un refus).
+    payload = {"event_id": event_id, "items": items}
+    if promo_code:
+        payload["promo_code"] = promo_code
+    return requests.post(f"{base_url}/api/orders", json=payload, headers=headers, timeout=TIMEOUT)
