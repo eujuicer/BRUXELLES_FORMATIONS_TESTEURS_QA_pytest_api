@@ -1,0 +1,9 @@
+[
+  {"cas": "zero_billet",       "quantity": 0,  "expected_status": 400, "expected_detail": "Order must contain at least one ticket"},
+  {"cas": "quantite_negative", "quantity": -1, "expected_status": 400, "expected_detail": "Order must contain at least one ticket"},
+  {"cas": "un_billet_minimum", "quantity": 1,  "expected_status": 201, "expected_detail": null},
+  {"cas": "trois_billets",     "quantity": 3,  "expected_status": 201, "expected_detail": null},
+  {"cas": "six_billets_max",   "quantity": 6,  "expected_status": 201, "expected_detail": null},
+  {"cas": "sept_billets",      "quantity": 7,  "expected_status": 400, "expected_detail": "Maximum 6 tickets per order"},
+  {"cas": "tres_grande_qte",   "quantity": 100, "expected_status": 400, "expected_detail": "Maximum 6 tickets per order"}
+]

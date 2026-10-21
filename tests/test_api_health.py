@@ -1,8 +1,10 @@
+import pytest
 import requests
 
 BASE_URL = "http://localhost:8000"
 from helpers import TIMEOUT
 
+@pytest.mark.smoke
 def test_healh_respond_ok():
     response = requests.get(f"{BASE_URL}/api/health", timeout=TIMEOUT)
 

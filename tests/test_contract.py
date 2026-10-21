@@ -10,6 +10,7 @@ CATALOGUE_SCHEMA = {"type": "array", "minItems": 1, "items": EVENT_SCHEMA}
 
 
 # Partie B : un seul appel valide chaque champ de chaque événement du catalogue
+@pytest.mark.smoke
 def test_catalogue_respecte_le_contrat():
     response = requests.get(f"{BASE_URL}/api/events", timeout=TIMEOUT)
     assert response.status_code == 200, response.text

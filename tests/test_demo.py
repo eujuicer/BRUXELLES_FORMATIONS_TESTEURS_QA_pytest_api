@@ -56,12 +56,12 @@ def test_echouaayyy():
 
 @pytest.mark.parametrize("id", [
     pytest.param(999, marks=pytest.mark.xfail), # => Même que les autres cas de test en bas, mais celui la permet de rajouter un marqueur sur le test case
-    (42),
+    (424242),
     (-1),
     (-99),
     (0)
-], ids=["CAS_999", "CAS_42", "CAS_-1", "CAS_-99", "CAS_0"])
-def test_event_404(id: Literal[999] | Literal[42] | Literal[-1] | Literal[-99] | Literal[0], base_url: str | None):
+], ids=["CAS_999", "CAS_424242", "CAS_-1", "CAS_-99", "CAS_0"])
+def test_event_404(id: Literal[999] | Literal[424242] | Literal[-1] | Literal[-99] | Literal[0], base_url: str | None):
     response = requests.get(f"{base_url}/api/events/{id}", timeout=TIMEOUT)
     assert response.status_code == 404, response.text
 
