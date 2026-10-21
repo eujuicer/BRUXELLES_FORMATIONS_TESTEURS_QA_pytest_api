@@ -1,6 +1,6 @@
 import pytest
 import requests
-from helpers import TIMEOUT, load_json
+from tests.helpers import TIMEOUT, load_json, event_Array_Schema
 from jsonschema import ValidationError, validate
 
 BASE_URL = "http://localhost:8000"
@@ -62,3 +62,35 @@ def test_detail_respecte_le_contrat_et_la_regle_metier():
     # métier : le schéma ne sait pas comparer deux valeurs entre elles
     assert detail["available"] <= detail["capacity"]
     assert detail["available"] == sum(c["available"] for c in detail["categories"])
+
+
+
+def test_valide_events_schema(base_url) :
+    res = requests.get(base_url+ "/api/events")
+    obj = res.json()
+    event_list_schema = event_Array_Schema()
+    validate(obj, event_list_schema)
+
+def test_echou_events_schema(base_url):
+    res = requests.get(base_url+ "/api/events")
+    obj = res.json()
+    event = obj[0]
+    schema = load_json("schemas/eventOut.json")
+    del event["id"]
+    with pytest.raises(ValidationError):
+        validate(event,schema)
+
+@pytest.mark.parametrize("key, wrong_value", [
+    ("capacity", "more"),
+    ("capacity", -5),
+    ("capacity", 1.24),
+    ("id", -5)
+], ids= ["Must be a valid value", "Value must be a string", "Value must be an integer", "Id must be positive"])
+
+def test_broken_value(real_event, key, wrong_value):
+    mock_event = dict(real_event)
+    mock_event[key] = wrong_value
+    schema = load_json("schemas/eventOut.json")
+
+    with pytest.raises(ValidationError):
+        validate(instance=mock_event, schema=schema)
